@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'body.dart';
 import 'new_todo.dart';
 
 class TodoScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class TodoScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text("TodoApp"),
       ),
-      body: Center(),
+      body: Body(),
       floatingActionButton: FloatingActionButton(
         onPressed: () => showModalBottomSheet(
           context: context,
