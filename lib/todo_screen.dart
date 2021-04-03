@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'new_todo.dart';
+
 class TodoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -9,7 +11,10 @@ class TodoScreen extends StatelessWidget {
       ),
       body: Center(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => null,
+        onPressed: () => showModalBottomSheet(
+          context: context,
+          builder: (context) => NewTodo(),
+        ),
         tooltip: 'New Todo',
         child: Icon(Icons.add),
       ),
