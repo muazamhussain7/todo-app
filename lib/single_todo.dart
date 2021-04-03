@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'todos.dart';
 
@@ -12,20 +13,24 @@ class SingleTodo extends StatelessWidget {
         vertical: 8.0,
         horizontal: 8.0,
       ),
-      child: ListTile(
-        title: Text(
-          singleTodo.title,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: ListTile(
+          title: Text(
+            singleTodo.title,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
-        ),
-        subtitle: Text(
-          singleTodo.description,
-        ),
-        trailing: IconButton(
-          icon: Icon(Icons.done),
-          onPressed: () {},
+          subtitle: Text(
+            singleTodo.description,
+          ),
+          trailing: IconButton(
+            icon: Icon(Icons.done),
+            onPressed: () => Provider.of<Todos>(context, listen: false)
+                .removeTodo(singleTodo.id),
+          ),
         ),
       ),
     );
