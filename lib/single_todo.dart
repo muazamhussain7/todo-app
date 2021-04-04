@@ -9,6 +9,7 @@ class SingleTodo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final todoContainer = Provider.of<Todos>(context, listen: false);
     return Card(
       margin: EdgeInsets.symmetric(
         vertical: 8.0,
@@ -28,18 +29,37 @@ class SingleTodo extends StatelessWidget {
             singleTodo.description,
           ),
           trailing: IconButton(
-              icon: Icon(Icons.done),
-              onPressed: () {
-                Provider.of<Todos>(context, listen: false)
-                    .markTodoCompleted(singleTodo.id);
+            icon: Icon(Icons.done),
+            onPressed: () {
+              if (singleTodo.isCompleted) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Delete the todo ${singleTodo.title}?'),
+                    duration: Duration(seconds: 2),
+                    action: SnackBarAction(
+                      label: 'OK',
+                      onPressed: () => todoContainer.removeTodo(singleTodo.id),
+                    ),
+                  ),
+                );
+              } else {
+                todoContainer.markTodoCompleted(singleTodo.id);
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Todo marked as completed.'),
                     duration: Duration(seconds: 2),
+                    action: SnackBarAction(
+                      label: 'UNDO',
+                      onPressed: () => todoContainer
+                          .removeRecentlyCompletedTodo(singleTodo.id),
+                    ),
                   ),
                 );
-              }),
+              }
+            },
+          ),
         ),
       ),
     );

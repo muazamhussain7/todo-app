@@ -44,9 +44,20 @@ class Todos with ChangeNotifier {
     notifyListeners();
   }
 
-  void markTodoCompleted(String id) {
-    Todos todo = _todos.firstWhere((todo) => todo.id == id);
+  void markTodoCompleted(String todoId) {
+    Todos todo = _todos.firstWhere((todo) => todo.id == todoId);
     todo.isCompleted = true;
+    notifyListeners();
+  }
+
+  void removeRecentlyAddedTodo() {
+    _todos.removeAt(0);
+    notifyListeners();
+  }
+
+  void removeRecentlyCompletedTodo(String todoId) {
+    Todos todo = _todos.firstWhere((todo) => todo.id == todoId);
+    todo.isCompleted = false;
     notifyListeners();
   }
 

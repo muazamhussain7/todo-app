@@ -14,18 +14,29 @@ class _NewTodoState extends State<NewTodo> {
     'description': '',
   };
   final _formKey = GlobalKey<FormState>();
-  // Todos todoObj;
+  Todos todoContainer;
+  void _addNewTodo() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      todoContainer = Provider.of<Todos>(context, listen: false);
+      todoContainer.addTodo(_todoData);
+      Navigator.of(context).pop();
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Todo added into the list.'),
+          duration: Duration(seconds: 2),
+          action: SnackBarAction(
+            label: 'UNDO',
+            onPressed: () => todoContainer.removeRecentlyAddedTodo(),
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    void _addNewTodo() {
-      if (_formKey.currentState.validate()) {
-        _formKey.currentState.save();
-        Provider.of<Todos>(context, listen: false).addTodo(_todoData);
-        Navigator.of(context).pop();
-      }
-    }
-
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
