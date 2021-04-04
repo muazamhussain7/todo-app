@@ -6,6 +6,7 @@ import 'todos.dart';
 class SingleTodo extends StatelessWidget {
   final Todos singleTodo;
   const SingleTodo(this.singleTodo);
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -27,10 +28,18 @@ class SingleTodo extends StatelessWidget {
             singleTodo.description,
           ),
           trailing: IconButton(
-            icon: Icon(Icons.done),
-            onPressed: () => Provider.of<Todos>(context, listen: false)
-                .removeTodo(singleTodo.id),
-          ),
+              icon: Icon(Icons.done),
+              onPressed: () {
+                Provider.of<Todos>(context, listen: false)
+                    .markTodoCompleted(singleTodo.id);
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('Todo marked as completed.'),
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              }),
         ),
       ),
     );

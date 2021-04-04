@@ -4,27 +4,49 @@ class Todos with ChangeNotifier {
   final String id;
   final String title;
   final String description;
+  bool isCompleted;
 
   Todos({
     this.id,
     this.title,
     this.description,
+    this.isCompleted = false,
   });
 
+  bool _isOnlyPendingTodos = true;
   List<Todos> _todos = [];
 
+  void showCompleted() {
+    _isOnlyPendingTodos = false;
+    notifyListeners();
+  }
+
+  void showPending() {
+    _isOnlyPendingTodos = true;
+    notifyListeners();
+  }
+
   List<Todos> get todos {
-    return [..._todos];
+    if (_isOnlyPendingTodos) {
+      return _todos.where((todo) => todo.isCompleted == false).toList();
+    } else {
+      return _todos.where((todo) => todo.isCompleted).toList();
+    }
   }
 
   void addTodo(Map<String, String> todo) {
-    print(todo);
     final newTodo = Todos(
       id: DateTime.now().toString(),
       title: todo['title'],
       description: todo['description'],
     );
     _todos.insert(0, newTodo);
+    notifyListeners();
+  }
+
+  void markTodoCompleted(String id) {
+    Todos todo = _todos.firstWhere((todo) => todo.id == id);
+    todo.isCompleted = true;
     notifyListeners();
   }
 
