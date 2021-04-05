@@ -26,6 +26,10 @@ class Todos with ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isOnlyPendingTodos {
+    return _isOnlyPendingTodos;
+  }
+
   List<Todos> get todos {
     if (_isOnlyPendingTodos) {
       return _todos.where((todo) => todo.isCompleted == false).toList();

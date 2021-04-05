@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'commonSnackBar.dart';
 import 'todos.dart';
 
 class SingleTodo extends StatelessWidget {
@@ -32,30 +33,23 @@ class SingleTodo extends StatelessWidget {
             icon: Icon(Icons.done),
             onPressed: () {
               if (singleTodo.isCompleted) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Delete the todo ${singleTodo.title}?'),
-                    duration: Duration(seconds: 2),
-                    action: SnackBarAction(
-                      label: 'OK',
-                      onPressed: () => todoContainer.removeTodo(singleTodo.id),
-                    ),
-                  ),
+                commonSnackBar(
+                  context: context,
+                  content: 'Delete the todo "${singleTodo.title}"?',
+                  label: 'OK',
+                  todoObj: todoContainer,
+                  functionSelection: 'removeTodo',
+                  todoId: singleTodo.id,
                 );
               } else {
                 todoContainer.markTodoCompleted(singleTodo.id);
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('Todo marked as completed.'),
-                    duration: Duration(seconds: 2),
-                    action: SnackBarAction(
-                      label: 'UNDO',
-                      onPressed: () => todoContainer
-                          .removeRecentlyCompletedTodo(singleTodo.id),
-                    ),
-                  ),
+                commonSnackBar(
+                  context: context,
+                  content: 'Todo marked as completed.',
+                  label: 'UNDO',
+                  todoObj: todoContainer,
+                  functionSelection: 'removeRecentlyCompletedTodo',
+                  todoId: singleTodo.id,
                 );
               }
             },

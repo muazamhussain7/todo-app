@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'todos.dart';
+import 'commonSnackBar.dart';
 
 class NewTodo extends StatefulWidget {
   @override
@@ -21,16 +22,12 @@ class _NewTodoState extends State<NewTodo> {
       todoContainer = Provider.of<Todos>(context, listen: false);
       todoContainer.addTodo(_todoData);
       Navigator.of(context).pop();
-      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Todo added into the list.'),
-          duration: Duration(seconds: 2),
-          action: SnackBarAction(
-            label: 'UNDO',
-            onPressed: () => todoContainer.removeRecentlyAddedTodo(),
-          ),
-        ),
+      commonSnackBar(
+        context: context,
+        content: 'Todo added into the list.',
+        label: 'UNDO',
+        todoObj: todoContainer,
+        functionSelection: 'removeRecentlyAddedTodo',
       );
     }
   }
