@@ -30,7 +30,10 @@ class SingleTodo extends StatelessWidget {
             singleTodo.description,
           ),
           trailing: IconButton(
-            icon: Icon(Icons.done),
+            icon: Icon(
+              singleTodo.isCompleted ? Icons.delete_rounded : Icons.done,
+              color: Theme.of(context).primaryColor,
+            ),
             onPressed: () {
               if (singleTodo.isCompleted) {
                 commonSnackBar(
