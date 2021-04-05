@@ -21,17 +21,17 @@ class Body extends StatelessWidget {
             ),
           ),
         ),
-        todoObj.todos.length == 0
-            ? Center(
-                child: Text("There is no todo."),
-              )
-            : Expanded(
-                child: ListView.builder(
+        Expanded(
+          child: todoObj.todos.length == 0
+              ? Center(
+                  child: Text("Yet there is no $todoType todo."),
+                )
+              : ListView.builder(
                   itemCount: todoObj.todos.length,
                   itemBuilder: (context, index) =>
                       SingleTodo(todoObj.todos[index]),
                 ),
-              ),
+        ),
       ],
     );
   }
