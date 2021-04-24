@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
 class Todos with ChangeNotifier {
-  final String id;
-  final String title;
-  final String description;
-  bool isCompleted;
-
   Todos({
     this.id,
     this.title,
     this.description,
     this.isCompleted = false,
   });
+
+  final String description;
+  final String id;
+  bool isCompleted;
+  final String title;
 
   bool _isOnlyPendingTodos = true;
   List<Todos> _todos = [];
